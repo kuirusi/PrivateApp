@@ -1,0 +1,59 @@
+<view class="page">
+  <view class="card">
+    <view class="card-title">月度预算</view>
+    <view class="budget-row">
+      <text class="cny">¥</text>
+      <input class="budget-input" type="digit" placeholder="设置本月支出预算" value="{{budget}}" bindinput="onBudgetInput" />
+      <view class="save-btn" bindtap="onSaveBudget">保存</view>
+    </view>
+    <view class="card-sub">填写 0 或不填表示不启用预算</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">数据总览</view>
+    <view class="stat-grid">
+      <view class="stat-item">
+        <text class="stat-value">{{totalCount}}</text>
+        <text class="stat-label">累计笔数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{monthCount}}</text>
+        <text class="stat-label">记账月份</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value income">{{incomeText}}</text>
+        <text class="stat-label">累计收入</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value expense">{{expenseText}}</text>
+        <text class="stat-label">累计支出</text>
+      </view>
+    </view>
+    <view class="date-row">
+      <text>最早 {{firstDate}}</text>
+      <text>最近 {{lastDate}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">数据管理</view>
+    <view class="menu" bindtap="onSeed">
+      <text>🎲 生成示例数据</text>
+      <text class="arrow">›</text>
+    </view>
+    <view class="menu" bindtap="onExport">
+      <text>📋 导出数据（复制到剪贴板）</text>
+      <text class="arrow">›</text>
+    </view>
+    <view class="menu" bindtap="onImport">
+      <text>📥 导入数据（粘贴 JSON）</text>
+      <text class="arrow">›</text>
+    </view>
+    <view class="menu danger" bindtap="onClear">
+      <text>🗑️ 清空所有账目</text>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+
+  <view class="footer">数据仅保存在本机微信缓存中，卸载/清理缓存会丢失，请定期导出备份</view>
+</view>

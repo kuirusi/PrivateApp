@@ -1,0 +1,98 @@
+page {
+  background: #f4f6fb;
+  color: #1f2330;
+  font-size: 28rpx;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+view,
+text,
+input,
+button {
+  box-sizing: border-box;
+}
+
+.page {
+  padding-bottom: 60rpx;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 24rpx;
+  margin: 24rpx;
+  padding: 28rpx;
+  box-shadow: 0 8rpx 24rpx rgba(31, 35, 48, 0.05);
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 8rpx;
+}
+
+.card-sub {
+  font-size: 24rpx;
+  color: #9aa0b5;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.muted {
+  color: #9aa0b5;
+}
+
+.expense {
+  color: #ef5b6b;
+}
+
+.income {
+  color: #22b07d;
+}
+
+.btn-primary {
+  background: #4b6ef5;
+  color: #ffffff;
+  border-radius: 999rpx;
+  font-size: 30rpx;
+  line-height: 88rpx;
+  height: 88rpx;
+}
+
+.btn-danger {
+  background: #fff1f2;
+  color: #ef5b6b;
+  border-radius: 999rpx;
+  font-size: 30rpx;
+  line-height: 88rpx;
+  height: 88rpx;
+}
+
+.btn-ghost {
+  background: #f4f6fb;
+  color: #6b7280;
+  border-radius: 999rpx;
+  font-size: 30rpx;
+  line-height: 88rpx;
+  height: 88rpx;
+}
+
+button::after {
+  border: none;
+}
+
+.empty {
+  padding: 120rpx 0;
+  text-align: center;
+  color: #9aa0b5;
+  font-size: 28rpx;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  display: block;
+  margin-bottom: 16rpx;
+}

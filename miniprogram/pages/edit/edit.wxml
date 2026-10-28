@@ -1,0 +1,61 @@
+<view class="page">
+  <view class="switch-wrap">
+    <view class="seg">
+      <view class="seg-item {{type === 'expense' ? 'active' : ''}}" data-type="expense" bindtap="onType">支出</view>
+      <view class="seg-item {{type === 'income' ? 'active' : ''}}" data-type="income" bindtap="onType">收入</view>
+    </view>
+  </view>
+
+  <view class="amount-card">
+    <view class="amount-line">
+      <text class="cny">¥</text>
+      <input
+        class="amount-input {{type === 'income' ? 'income' : 'expense'}}"
+        type="digit"
+        placeholder="0.00"
+        placeholder-class="amount-ph"
+        value="{{amount}}"
+        bindinput="onAmount"
+      />
+    </view>
+    <view class="quick">
+      <view class="quick-item" wx:for="{{quickAmounts}}" wx:key="*this" data-value="{{item}}" bindtap="onQuickAmount">+{{item}}</view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">选择分类</view>
+    <view class="cat-grid">
+      <view
+        class="cat-item {{category === cat.name ? 'active' : ''}}"
+        wx:for="{{categories}}"
+        wx:for-item="cat"
+        wx:key="name"
+        data-name="{{cat.name}}"
+        bindtap="onCategory"
+      >
+        <view class="cat-icon" style="color: {{cat.color}}; background: {{cat.color}}1f">{{cat.icon}}</view>
+        <text class="cat-name">{{cat.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card rows">
+    <picker mode="date" value="{{date}}" bindchange="onDate">
+      <view class="row">
+        <text class="row-label">日期</text>
+        <text class="row-value">{{date}} ›</text>
+      </view>
+    </picker>
+    <view class="row">
+      <text class="row-label">备注</text>
+      <input class="row-input" placeholder="点击添加备注" value="{{note}}" bindinput="onNote" maxlength="30" />
+    </view>
+  </view>
+
+  <view class="actions">
+    <button class="btn-primary" bindtap="onSave">{{isEdit ? '保存修改' : '保存'}}</button>
+    <button class="btn-danger" wx:if="{{isEdit}}" bindtap="onDelete">删除这笔</button>
+    <button class="btn-ghost" bindtap="onReset">清空重填</button>
+  </view>
+</view>

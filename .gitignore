@@ -1,0 +1,30 @@
+node_modules
+dist
+.DS_Store
+*.log
+
+# 本地打包工具链（JDK / Android SDK，约 600MB）
+.tooling
+preview.log
+screens
+release
+
+# Capacitor / Android 构建产物
+android/.gradle
+android/local.properties
+android/app/build
+android/build
+android/app/src/main/assets/public
+android/capacitor-cordova-android-plugins
+
+# Capacitor / iOS 构建产物
+ios/App/Pods
+ios/App/build
+ios/App/DerivedData
+ios/App/App/public
+**/xcuserdata
+*.xcuserstate
+
+# 安装包
+*.apk
+*.ipa

@@ -1,0 +1,185 @@
+.month-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx 0 8rpx;
+}
+
+.month-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin: 0 24rpx;
+}
+
+.arrow {
+  width: 56rpx;
+  height: 56rpx;
+  line-height: 52rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: #e8ecf7;
+  color: #4b6ef5;
+  font-size: 34rpx;
+}
+
+.total-card {
+  margin-top: 8rpx;
+}
+
+.total-row {
+  display: flex;
+  align-items: flex-end;
+}
+
+.total-item {
+  flex: 1;
+}
+
+.total-item.mid {
+  text-align: center;
+}
+
+.total-item.right {
+  text-align: right;
+}
+
+.total-label {
+  display: block;
+  font-size: 24rpx;
+  color: #9aa0b5;
+  margin-bottom: 6rpx;
+}
+
+.total-value {
+  font-size: 40rpx;
+  font-weight: 600;
+}
+
+.extra-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24rpx;
+  padding-top: 20rpx;
+  border-top: 2rpx solid #f2f4f9;
+  font-size: 24rpx;
+  color: #6b7280;
+}
+
+.chart-row {
+  display: flex;
+  align-items: center;
+  margin-top: 20rpx;
+}
+
+.pie-canvas {
+  width: 300rpx;
+  height: 300rpx;
+  flex-shrink: 0;
+}
+
+.legend {
+  flex: 1;
+  min-width: 0;
+  padding-left: 20rpx;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  margin-bottom: 12rpx;
+}
+
+.dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+
+.legend-name {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.legend-percent {
+  color: #6b7280;
+  width: 80rpx;
+  text-align: right;
+}
+
+.bar-legend {
+  display: flex;
+  margin-top: 16rpx;
+}
+
+.bar-legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #6b7280;
+  margin-right: 28rpx;
+}
+
+.trend-canvas {
+  width: 100%;
+  height: 360rpx;
+  margin-top: 12rpx;
+}
+
+.rank {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 0;
+}
+
+.rank-left {
+  display: flex;
+  align-items: center;
+  width: 240rpx;
+}
+
+.rank-index {
+  width: 32rpx;
+  color: #9aa0b5;
+  font-size: 24rpx;
+}
+
+.rank-icon {
+  margin-right: 10rpx;
+}
+
+.rank-name {
+  font-size: 26rpx;
+}
+
+.rank-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.rank-bar {
+  flex: 1;
+  height: 12rpx;
+  background: #f0f2f8;
+  border-radius: 999rpx;
+  overflow: hidden;
+  margin-right: 16rpx;
+}
+
+.rank-bar-inner {
+  height: 100%;
+  border-radius: 999rpx;
+}
+
+.rank-amount {
+  width: 160rpx;
+  text-align: right;
+  font-size: 26rpx;
+}

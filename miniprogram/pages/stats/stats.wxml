@@ -1,0 +1,77 @@
+<view class="page">
+  <view class="month-bar">
+    <view class="arrow" bindtap="prevMonth">‹</view>
+    <picker mode="date" fields="month" value="{{month}}" bindchange="onMonthChange">
+      <view class="month-text">{{monthLabel}} ▾</view>
+    </picker>
+    <view class="arrow" bindtap="nextMonth">›</view>
+  </view>
+
+  <view class="card total-card">
+    <view class="total-row">
+      <view class="total-item">
+        <text class="total-label">收入</text>
+        <text class="total-value income">¥ {{incomeText}}</text>
+      </view>
+      <view class="total-item mid">
+        <text class="total-label">结余</text>
+        <text class="total-value">¥ {{balanceText}}</text>
+      </view>
+      <view class="total-item right">
+        <text class="total-label">支出</text>
+        <text class="total-value expense">¥ {{expenseText}}</text>
+      </view>
+    </view>
+    <view class="extra-row">
+      <text>日均支出 ¥{{avgText}}</text>
+      <text>单日最高 ¥{{maxText}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{empty}}" class="empty">
+    <text class="empty-icon">📊</text>
+    <text>本月还没有数据</text>
+  </view>
+
+  <block wx:if="{{!empty}}">
+    <view class="card">
+      <view class="card-title">支出结构</view>
+      <view class="card-sub">合计 ¥{{pieTotalText}}</view>
+      <view class="chart-row">
+        <canvas type="2d" id="pieCanvas" class="pie-canvas"></canvas>
+        <view class="legend">
+          <view class="legend-item" wx:for="{{pieList}}" wx:key="label">
+            <view class="dot" style="background: {{item.color}}"></view>
+            <text class="legend-name">{{item.icon}} {{item.label}}</text>
+            <text class="legend-percent">{{item.percent}}%</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">近 6 个月趋势</view>
+      <view class="card-sub">{{monthsLabel}}</view>
+      <view class="bar-legend">
+        <view class="bar-legend-item"><view class="dot" style="background: #ef5b6b"></view><text>支出</text></view>
+        <view class="bar-legend-item"><view class="dot" style="background: #22b07d"></view><text>收入</text></view>
+      </view>
+      <canvas type="2d" id="trendCanvas" class="trend-canvas"></canvas>
+    </view>
+
+    <view class="card">
+      <view class="card-title">支出排行</view>
+      <view class="rank" wx:for="{{pieList}}" wx:key="label">
+        <view class="rank-left">
+          <text class="rank-index">{{index + 1}}</text>
+          <text class="rank-icon">{{item.icon}}</text>
+          <text class="rank-name">{{item.label}}</text>
+        </view>
+        <view class="rank-right">
+          <view class="rank-bar"><view class="rank-bar-inner" style="width: {{item.percent}}%; background: {{item.color}}"></view></view>
+          <text class="rank-amount">¥{{item.amountText}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

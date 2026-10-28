@@ -1,0 +1,84 @@
+<view class="page">
+  <view class="header">
+    <view class="month-bar">
+      <view class="arrow" bindtap="prevMonth">‹</view>
+      <picker mode="date" fields="month" value="{{month}}" bindchange="onMonthChange">
+        <view class="month-text">{{monthLabel}} ▾</view>
+      </picker>
+      <view class="arrow" bindtap="nextMonth">›</view>
+    </view>
+
+    <view class="summary">
+      <view class="summary-col">
+        <text class="summary-label">本月支出</text>
+        <text class="summary-value expense">¥ {{expenseText}}</text>
+      </view>
+      <view class="summary-col mid">
+        <text class="summary-label">结余</text>
+        <text class="summary-value">¥ {{balanceText}}</text>
+      </view>
+      <view class="summary-col right">
+        <text class="summary-label">本月收入</text>
+        <text class="summary-value income">¥ {{incomeText}}</text>
+      </view>
+    </view>
+
+    <view class="budget" wx:if="{{budget > 0}}">
+      <view class="budget-line">
+        <text>本月预算 ¥{{budgetText}}</text>
+        <text wx:if="{{overBudget}}" class="expense">已超支 ¥{{remainText}}</text>
+        <text wx:else>剩余 ¥{{remainText}}</text>
+      </view>
+      <view class="progress">
+        <view class="progress-inner {{overBudget ? 'over' : ''}}" style="width: {{percent}}%"></view>
+      </view>
+    </view>
+    <view class="budget tip" wx:else>未设置预算，去「我的」设置月度预算</view>
+  </view>
+
+  <view class="list-wrap">
+    <view wx:if="{{total > 0}}" class="list-head">
+      <text>共 {{total}} 笔</text>
+      <text class="hint">点击编辑 · 长按删除</text>
+    </view>
+
+    <view wx:for="{{groups}}" wx:key="date" class="group">
+      <view class="group-head row-between">
+        <text class="group-date">{{item.label}}</text>
+        <text class="group-sum">
+          <text class="income">收 {{item.incomeText}}</text>
+          <text class="muted"> · </text>
+          <text class="expense">支 {{item.expenseText}}</text>
+        </text>
+      </view>
+      <view class="card bill-list">
+        <view
+          class="bill"
+          wx:for="{{item.items}}"
+          wx:for-item="bill"
+          wx:key="id"
+          data-id="{{bill.id}}"
+          bindtap="onEdit"
+          bindlongpress="onDelete"
+          hover-class="bill-hover"
+        >
+          <view class="bill-icon" style="color: {{bill.color}}; background: {{bill.color}}1f">{{bill.icon}}</view>
+          <view class="bill-main">
+            <text class="bill-cat">{{bill.category}}</text>
+            <text class="bill-note" wx:if="{{bill.note}}">{{bill.note}}</text>
+          </view>
+          <text class="bill-amount {{bill.type === 'income' ? 'income' : 'expense'}}">
+            {{bill.type === 'income' ? '+' : '-'}}{{bill.amountText}}
+          </text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{empty}}" class="empty">
+      <text class="empty-icon">🧾</text>
+      <text>本月还没有记账\n点击下方按钮记第一笔</text>
+    </view>
+  </view>
+
+  <view class="fab" bindtap="goEdit">＋</view>
+</view>

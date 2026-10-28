@@ -1,0 +1,9 @@
+{
+  "name": "private-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "轻记账 - 微信小程序（账目统计）",
+  "scripts": {
+    "test": "node test/run.js"
+  }
+}

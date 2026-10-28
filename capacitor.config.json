@@ -1,0 +1,18 @@
+{
+  "appId": "com.qingjizhang.app",
+  "appName": "轻记账",
+  "webDir": "dist",
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#f4f6fb"
+  },
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#f4f6fb",
+    "scrollEnabled": true
+  },
+  "server": {
+    "androidScheme": "https",
+    "iosScheme": "capacitor"
+  }
+}

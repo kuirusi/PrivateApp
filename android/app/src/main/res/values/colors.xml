@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4B6EF5</color>
+    <color name="colorPrimaryDark">#4B6EF5</color>
+    <color name="colorAccent">#4B6EF5</color>
+    <!-- 启动画面阶段的状态栏颜色，与明细页头部渐变保持一致 -->
+    <color name="statusBarColor">#4B6EF5</color>
+    <color name="navigationBarColor">#FFFFFF</color>
+</resources>

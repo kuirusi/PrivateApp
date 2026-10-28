@@ -1,0 +1,58 @@
+# 在 GitHub 的 macOS 机器上编译未签名 ipa，供 Windows 端用 Sideloadly 自签安装
+# 触发：仓库页面 Actions -> Build unsigned iOS ipa -> Run workflow
+name: Build unsigned iOS ipa
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install JS dependencies
+        run: npm ci
+
+      - name: Build web assets
+        run: npm run build
+
+      - name: Sync Capacitor iOS project
+        run: npx cap sync ios
+
+      - name: Install CocoaPods dependencies
+        run: |
+          cd ios/App
+          pod install
+
+      - name: Archive without code signing
+        run: |
+          cd ios/App
+          xcodebuild -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            archive -archivePath build/App.xcarchive
+
+      - name: Package unsigned ipa
+        run: |
+          mkdir -p Payload
+          cp -R "ios/App/build/App.xcarchive/Products/Applications/App.app" Payload/
+          zip -qry qingjizhang-unsigned.ipa Payload
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qingjizhang-unsigned-ipa
+          path: qingjizhang-unsigned.ipa
+          if-no-files-found: error
