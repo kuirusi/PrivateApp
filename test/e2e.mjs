@@ -254,6 +254,58 @@ try {
   check('支出排行标记元凶', (await page.locator('.rank__item--culprit .rank__badge').count()) === 1)
   await shot(page, '08-stats-danger.png')
 
+  // ===== 购物二级标签（独立场景，重置数据与预算干扰） =====
+  await page.evaluate(() => localStorage.clear())
+  await page.reload({ waitUntil: 'networkidle' })
+  await page.waitForTimeout(400)
+
+  await page.locator('.fab').click()
+  await page.locator('.amount__input').fill('199.9')
+  check('非购物分类不显示标签', (await page.locator('.tags__item').count()) === 0)
+  await page.locator('.cats__item', { hasText: '购物' }).click()
+  check('选择购物后出现标签选项', (await page.locator('.tags__item').count()) >= 5)
+  await page.locator('.tags__item', { hasText: '衣服' }).click()
+  check(
+    '标签可以选中',
+    await page.locator('.tags__item--active').innerText().then((text) => text.includes('衣服'))
+  )
+  await page.getByRole('button', { name: '保存' }).click()
+  await page.waitForTimeout(400)
+
+  check(
+    '明细显示购物标签',
+    await page.locator('.row__tag').first().innerText().then((text) => text.trim() === '衣服')
+  )
+
+  // 第二笔换个标签
+  await page.locator('.fab').click()
+  await page.locator('.amount__input').fill('300')
+  await page.locator('.cats__item', { hasText: '购物' }).click()
+  await page.locator('.tags__item', { hasText: '包包' }).click()
+  await page.getByRole('button', { name: '保存' }).click()
+  await page.waitForTimeout(400)
+
+  // 编辑时标签应回填
+  await page.locator('.row').first().click()
+  await page.waitForTimeout(300)
+  check(
+    '编辑时标签回填',
+    await page.locator('.tags__item--active').innerText().then((text) => text.includes('包包'))
+  )
+  await page.locator('.sheet__mask').click({ position: { x: 12, y: 12 } })
+  await page.waitForTimeout(400)
+
+  await page.getByRole('button', { name: '统计' }).click()
+  await page.waitForTimeout(400)
+  check('统计页出现购物细分卡片', await page.getByText('购物细分').isVisible())
+  const tagRankText = await page.locator('.rank').last().innerText()
+  check('购物细分按标签汇总', tagRankText.includes('衣服') && tagRankText.includes('包包'))
+  check(
+    '购物细分金额正确',
+    tagRankText.includes('300.00') && tagRankText.includes('199.90')
+  )
+  await shot(page, '10-shopping-tags.png')
+
   check('无控制台错误', consoleErrors.length === 0, consoleErrors.slice(0, 3).join(' | '))
 } catch (error) {
   check('测试执行完成', false, String(error))

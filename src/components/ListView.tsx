@@ -133,7 +133,10 @@ export default function ListView({ onEdit, onCreate, overspend }: Props) {
                           {category.icon}
                         </span>
                         <span className="row__main">
-                          <span className="row__cat">{bill.category}</span>
+                          <span className="row__cat">
+                            {bill.category}
+                            {bill.tag ? <em className="row__tag">{bill.tag}</em> : null}
+                          </span>
                           {bill.note ? <span className="row__note">{bill.note}</span> : null}
                         </span>
                         <span className={`row__amount ${bill.type === 'income' ? 'text-income' : 'text-expense'}`}>

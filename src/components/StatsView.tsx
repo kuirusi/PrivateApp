@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { getCategory } from '../lib/categories'
+import { getCategory, getTag } from '../lib/categories'
 import { computeOverspend } from '../lib/budget'
 import { daysInMonth, money, nowMonth, percent, shiftMonth, shortMonthLabel, yuan } from '../lib/format'
 import { useStore } from '../lib/store'
@@ -53,6 +53,29 @@ export default function StatsView() {
       avgExpense: activeDays > 0 ? expense / activeDays : 0,
       maxDayExpense
     }
+  }, [monthBills])
+
+  /** 「购物」按二级标签拆解，没打标签的归入「未标注」 */
+  const shoppingTags = useMemo(() => {
+    const shopping = monthBills.filter((bill) => bill.type === 'expense' && bill.category === '购物')
+    if (shopping.length === 0) {
+      return null
+    }
+    const total = shopping.reduce((sum, bill) => sum + bill.amount, 0)
+    const map = new Map<string, number>()
+    shopping.forEach((bill) => {
+      const key = bill.tag || '未标注'
+      map.set(key, (map.get(key) ?? 0) + bill.amount)
+    })
+    const list = Array.from(map.entries())
+      .map(([label, value]) => ({
+        label,
+        icon: label === '未标注' ? '🏷️' : getTag('购物', label).icon,
+        value: Math.round(value * 100) / 100,
+        share: percent(value, total)
+      }))
+      .sort((a, b) => b.value - a.value)
+    return { total: Math.round(total * 100) / 100, list }
   }, [monthBills])
 
   const overspend = useMemo(
@@ -260,6 +283,32 @@ export default function StatsView() {
               ))}
             </ul>
           </div>
+
+          {shoppingTags ? (
+            <div className="card">
+              <div className="card__head">
+                <h2 className="card__title">购物细分</h2>
+                <span className="card__sub">共 ¥{money(shoppingTags.total)}</span>
+              </div>
+              <ul className="rank">
+                {shoppingTags.list.map((item, index) => (
+                  <li className="rank__item" key={item.label}>
+                    <span className="rank__index">{index + 1}</span>
+                    <span className="rank__name">
+                      {item.icon} {item.label}
+                    </span>
+                    <span className="rank__track">
+                      <span
+                        className="rank__bar"
+                        style={{ width: `${Math.max(item.share, 2)}%`, background: '#4b6ef5' }}
+                      />
+                    </span>
+                    <span className="rank__amount">¥{money(item.value)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </>
       )}
     </div>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Bill, BillType } from '../types'
-import { getCategories } from '../lib/categories'
+import { getCategories, getTags } from '../lib/categories'
 import { today } from '../lib/format'
 import { actions } from '../lib/store'
 import Sheet from './Sheet'
@@ -27,9 +27,12 @@ export default function BillSheet({ open, bill, onClose }: Props) {
   const [category, setCategory] = useState('餐饮')
   const [date, setDate] = useState(today())
   const [note, setNote] = useState('')
+  const [tag, setTag] = useState('')
   const amountRef = useRef<HTMLInputElement>(null)
 
   const categories = getCategories(type)
+  /** 当前分类支持的二级标签，为空表示这个分类不需要标签 */
+  const tagOptions = getTags(category)
 
   useEffect(() => {
     if (!open) {
@@ -41,12 +44,14 @@ export default function BillSheet({ open, bill, onClose }: Props) {
       setCategory(bill.category)
       setDate(bill.date)
       setNote(bill.note)
+      setTag(bill.tag ?? '')
     } else {
       setType('expense')
       setAmount('')
       setCategory(getCategories('expense')[0].name)
       setDate(today())
       setNote('')
+      setTag('')
     }
     const timer = window.setTimeout(() => amountRef.current?.focus(), 260)
     return () => window.clearTimeout(timer)
@@ -58,6 +63,13 @@ export default function BillSheet({ open, bill, onClose }: Props) {
     }
     setType(next)
     setCategory(getCategories(next)[0].name)
+    setTag('')
+  }
+
+  const pickCategory = (name: string) => {
+    setCategory(name)
+    // 换分类后旧标签不再适用
+    setTag('')
   }
 
   const addQuick = (value: number) => {
@@ -71,7 +83,14 @@ export default function BillSheet({ open, bill, onClose }: Props) {
       toast('请输入有效金额')
       return
     }
-    const input = { type, amount: value, category, date, note }
+    const input = {
+      type,
+      amount: value,
+      category,
+      date,
+      note,
+      tag: tagOptions.length > 0 && tag ? tag : undefined
+    }
     if (bill) {
       actions.updateBill({ ...bill, ...input })
     } else {
@@ -148,7 +167,7 @@ export default function BillSheet({ open, bill, onClose }: Props) {
               type="button"
               key={item.name}
               className={`cats__item ${category === item.name ? 'cats__item--active' : ''}`}
-              onClick={() => setCategory(item.name)}
+              onClick={() => pickCategory(item.name)}
             >
               <span
                 className="cats__icon"
@@ -160,6 +179,25 @@ export default function BillSheet({ open, bill, onClose }: Props) {
             </button>
           ))}
         </div>
+
+        {tagOptions.length > 0 ? (
+          <>
+            <p className="sheet__title">选择标签（可选）</p>
+            <div className="tags">
+              {tagOptions.map((item) => (
+                <button
+                  type="button"
+                  key={item.name}
+                  className={`tags__item ${tag === item.name ? 'tags__item--active' : ''}`}
+                  onClick={() => setTag(tag === item.name ? '' : item.name)}
+                  aria-pressed={tag === item.name}
+                >
+                  {item.icon} {item.name}
+                </button>
+              ))}
+            </div>
+          </>
+        ) : null}
 
         <div className="fields">
           <label className="field">

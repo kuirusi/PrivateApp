@@ -450,6 +450,9 @@ ul {
 }
 
 .row__cat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 15px;
   font-weight: 500;
 }
@@ -461,6 +464,17 @@ ul {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.row__tag {
+  font-style: normal;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 5px;
+  padding: 1px 6px;
 }
 
 .row__amount {
@@ -1140,6 +1154,31 @@ ul {
 
 .cats__item--active .cats__name {
   color: var(--text);
+  font-weight: 600;
+}
+
+/* 二级标签 */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tags__item {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #f1f4fb;
+  color: var(--text-2);
+  font-size: 13px;
+  border: 1.5px solid transparent;
+  transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+}
+
+.tags__item--active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
   font-weight: 600;
 }
 

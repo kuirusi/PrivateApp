@@ -46,11 +46,13 @@ export function useStore(): AppState {
 
 export const actions = {
   addBill(input: BillInput): Bill {
+    const tag = input.tag?.trim()
     const bill: Bill = {
       id: createId(),
       type: input.type,
       amount: Math.round(input.amount * 100) / 100,
       category: input.category,
+      ...(tag ? { tag } : {}),
       date: input.date,
       note: input.note.trim(),
       createdAt: Date.now()
@@ -67,7 +69,8 @@ export const actions = {
               ...item,
               ...bill,
               amount: Math.round(bill.amount * 100) / 100,
-              note: bill.note.trim()
+              note: bill.note.trim(),
+              tag: bill.tag?.trim() || undefined
             }
           : item
       )

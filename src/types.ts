@@ -5,6 +5,8 @@ export interface Bill {
   type: BillType
   amount: number
   category: string
+  /** 二级标签，如「购物」下的「衣服」，旧数据没有这个字段 */
+  tag?: string
   /** YYYY-MM-DD */
   date: string
   note: string
@@ -34,6 +36,7 @@ export interface BillInput {
   type: BillType
   amount: number
   category: string
+  tag?: string
   date: string
   note: string
 }

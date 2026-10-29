@@ -76,11 +76,14 @@ export function normalizeBill(raw: unknown): Bill | null {
   const date =
     typeof item.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(item.date) ? item.date : today()
 
+  const tag = typeof item.tag === 'string' && item.tag.trim() ? item.tag.trim() : undefined
+
   return {
     id: typeof item.id === 'string' && item.id ? item.id : createId(),
     type: item.type === 'income' ? 'income' : 'expense',
     amount: Math.round(amount * 100) / 100,
     category: typeof item.category === 'string' && item.category ? item.category : '其他',
+    ...(tag ? { tag } : {}),
     date,
     note: typeof item.note === 'string' ? item.note : '',
     createdAt: Number(item.createdAt) || Date.now()
